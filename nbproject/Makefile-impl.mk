@@ -24,7 +24,7 @@ CLEAN_SUBPROJECTS=${CLEAN_SUBPROJECTS_${SUBPROJECTS}}
 
 
 # Project Name
-PROJECTNAME=Mapeamento-Localizacao
+PROJECTNAME=Mapping-Localization
 
 # Active Configuration
 DEFAULTCONF=Debug

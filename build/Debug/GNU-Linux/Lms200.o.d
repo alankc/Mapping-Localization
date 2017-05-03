@@ -14,7 +14,8 @@ build/Debug/GNU-Linux/Lms200.o: Lms200.cpp Lms200.h \
  /usr/local/include/player-3.0/libplayerc++/playerclient.h \
  /usr/local/include/player-3.0/libplayerc++/playerc++config.h \
  /usr/local/include/player-3.0/libplayerc++/playererror.h \
- /usr/local/include/player-3.0/libplayerc++/clientproxy.h
+ /usr/local/include/player-3.0/libplayerc++/clientproxy.h \
+ NormalDistribution.h
 
 Lms200.h:
 
@@ -49,3 +50,5 @@ Lms200.h:
 /usr/local/include/player-3.0/libplayerc++/playererror.h:
 
 /usr/local/include/player-3.0/libplayerc++/clientproxy.h:
+
+NormalDistribution.h:

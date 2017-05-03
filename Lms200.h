@@ -21,18 +21,24 @@ using namespace PlayerCc;
 
 class Lms200 : public RangerProxy {
 public:
-    Lms200(PlayerClient *aPc, uint32_t aIndex = 0) : RangerProxy(aPc, aIndex){}
-    double GetBetha(uint32_t index);       
+
+    Lms200(PlayerClient *aPc, uint32_t aIndex = 0) : RangerProxy(aPc, aIndex) {
+    }
+    double GetBetha(uint32_t index);
+    double GetProbability(player_pose2d_t& position, MapProxy& map);
 private:
     const double betha[9] = {12.0, 16.4, 20.8, 25.2, 29.6, 34.0, 38.4, 42.8, 47.2};
+    const double zHit = 1.0;
+    const double zShort = 1.0;
     const double zMax = 8.0;
+    const double zRand = 1.0;
     const double sigmaHit = 0.1;
     const double lambdaShort = 0.1;
-    double zStar[180];
-    double PHit(uint32_t index);
-    double PShort(uint32_t index);
-    double PMax(uint32_t index);
-    double PRand(uint32_t index);
+    void CalculateZStar(player_pose2d_t& position, MapProxy& map, double zStar[]);
+    double PHit(uint32_t index, double zStar[]);
+    double PShort(uint32_t index, double zStar[]);
+    double PMax(uint32_t index, double zStar[]);
+    double PRand(uint32_t index, double zStar[]);
 };
 
 #endif /* LMS200_H */
