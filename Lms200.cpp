@@ -64,11 +64,62 @@ double Lms200::GetProbability (player_pose2d_t& position, MapProxy& map)
   return probability;
 }
 
-//Based in Bresenham Algorithm
-
 void Lms200::CalculateZStar(player_pose2d_t& position, MapProxy& map, double zStar[])
 {
-  int8_t slope;
+  //AMANATIDES,  J., AND WOO,  A.   1987.   A fast voxel traversal algorithm for ray tracing. In Eurographics 1987, 3–10.
+  int8_t stepX, stepY, pixel;
+  int x, y;
+  double tDeltaX, tDeltaY, tMaxX, tMaxY, dX, dY, xEndOfLine, yEndOfLine;
+
+  tDeltaX = tDeltaY = map.GetResolution();
+
+  for (uint8_t i = 0; i < 181; i++)
+  {
+    xEndOfLine = position.px + 8.0 * cos((position.pa + 90.0 - i) * M_PI / 180.0);
+    yEndOfLine = position.py + 8.0 * sin((position.pa + + 90.0 - i) * M_PI / 180.0);
+    
+
+    dX = xEndOfLine - position.px;
+    dY = yEndOfLine - position.py;
+
+    tMaxY = tMaxX = sqrt( 2 * (map.GetResolution() / 2) * (map.GetResolution() / 2)); //Approximation to make more fast
+
+    if (dX > 0)      //Line to Rigth
+      stepX = 1;
+    else if (dX < 0) //Line to Left
+      stepX = -1;
+    else
+      stepX = 0;
+
+    if (dY > 0)      //Line to Up
+      stepY = 1;
+    else if (dY < 0) //Line to Down
+      stepY = -1;
+    else
+      stepY = 0;
+
+    x = position.px;
+    y = position.py;
+    pixel = 0;
+    while ((pixel != 1) && ((abs((int)xEndOfLine - x) > 1) || (abs((int)yEndOfLine - y) > 1)))
+    {
+      pixel = map.GetCell(x, y);
+      if (tMaxX < tMaxY)
+      {
+        tMaxX = tMaxX + tDeltaX;
+        x = x + stepX;
+      } else
+      {
+        tMaxY = tMaxY + tDeltaY;
+        y = y + stepY;
+      }   
+    }
+    
+    zStar[i] = sqrt(pow(x - position.px, 2) + pow(y - position.py, 2));
+    
+  }
+  //Based in Bresenham Algorithm
+  /*int8_t slope;
   int32_t dx, dy, incE, incNE, d, x, y, x1, x2[181], y1, y2[181];
 
   x1 = (int32_t) (position.px / map.GetResolution());
@@ -142,6 +193,6 @@ void Lms200::CalculateZStar(player_pose2d_t& position, MapProxy& map, double zSt
       }
 
     }
-  }
+  }*/
 
 }
